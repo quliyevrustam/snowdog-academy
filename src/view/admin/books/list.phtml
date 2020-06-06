@@ -1,0 +1,36 @@
+<?php use Snowdog\Academy\Model\Book;
+
+require_once(__DIR__ . '/../../common/header.phtml'); ?>
+
+<section id="add" class="padded">
+    <a href="/admin/new_book" class="btn btn-primary">Add new book</a>
+</section>
+<section id="book-list" class="padded">
+    <h3>Book list</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Borrowed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->getBooks() as $book): /** @var Book $book */?>
+            <tr>
+                <td><?= $book->getId()?></td>
+                <td><?= $book->getTitle()?></td>
+                <td><?= $book->getAuthor()?></td>
+                <td><?= $book->getIsbn()?></td>
+                <td><?= $book->isBorrowed() ? 'Yes' : 'No' ?></td>
+                <td><a href="/admin/edit_book/<?=$book->getId()?>">Edit</a></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</section>
+
+<?php require_once(__DIR__ . '/../../common/footer.phtml'); ?>
+

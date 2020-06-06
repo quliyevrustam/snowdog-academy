@@ -1,0 +1,17 @@
+{
+  "name": "snowdog/academy",
+  "require": {
+    "mnapoli/silly": "1.7.2",
+    "nikic/fast-route": "1.3.0",
+    "php-di/php-di": "6.1.0",
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Snowdog\\Academy\\": "src"
+    },
+    "files": [
+      "src/components.php"
+    ]
+  }
+}

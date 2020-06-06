@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  php:
+    build: .
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./:/app
+    networks:
+      - internal
+
+  mysql:
+    image: mysql:5.7.29
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+    volumes:
+      - mysql/:/var/lib/mysql/
+    networks:
+      - internal
+
+volumes:
+  mysql:
+
+networks:
+  internal:
+    driver: bridge

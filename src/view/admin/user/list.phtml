@@ -1,0 +1,39 @@
+<?php /** @var User $this */
+
+use Snowdog\Academy\Controller\Admin\User;
+use Snowdog\Academy\Model\User as UserModel; ?>
+
+<?php require_once(__DIR__ . '/../../common/header.phtml'); ?>
+
+<div class="container">
+
+    <div>
+        <h1><?= $this->title ?> users</h1>
+
+        <div class="padded">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <?php if (!$this->isActive): ?>
+                        <th>Action</th>
+                    <?php endif; ?>
+
+                </tr>
+                <?php foreach ($this->getUsers($this->isActive) as $user): /** @var UserModel $user */ ?>
+                    <tr>
+                        <td><?= $user->getId() ?></td>
+                        <td><?= $user->getLogin() ?></td>
+                        <?php if (!$this->isActive): ?>
+                            <th><a href="/admin/user/activate/<?= $user->getId() ?>">Activate</a></th>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<?php require_once(__DIR__ . '/../../common/footer.phtml'); ?>

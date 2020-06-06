@@ -1,0 +1,7 @@
+<?php if ($this->isVisible()): ?>
+
+<li class="<?= $this->isActive() ? 'active' : '' ?>">
+    <a class="menu-item" href="<?= $this->getHref() ?>"><?= $this->getLabel() ?></a>
+</li>
+
+<?php endif; ?>

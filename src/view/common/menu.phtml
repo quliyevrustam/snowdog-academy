@@ -1,0 +1,22 @@
+<?php /** @var Menu $this */
+
+use Snowdog\Academy\Component\Menu; ?>
+
+<header>
+    <nav>
+        <a id="logo" href="/">
+            <div>
+                <span id="title">Library App</span>
+                <i class="fa fa-book-reader"></i>
+                <span id="slogan">Explore the world of books</span>
+            </div>
+        </a>
+        <div id="menu">
+            <ul>
+                <?php foreach ($this->getMenus() as $menu): ?>
+                    <?php $this->renderItem($menu) ?>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    </nav>
+</header>
