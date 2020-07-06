@@ -73,7 +73,7 @@ Add a possibility to import books from a CSV file by administrators.
 Add a list of books that are being borrowed for more than X days. The list should be available only for administrators.
 
 ### Task 3
-Add a button to the book-edit form that is available after the ISBN number is typed in. Clicking in the button will import book data from [ISBNDB](https://isbndb.com/api/docs/v2) API.
+Add a button to the book-edit form that is available after the ISBN number is typed in. Clicking in the button will import book data from [ISBNDB API](https://isbndb.com/api/docs/v2), [Open Library Books API](https://openlibrary.org/dev/docs/api/books) or any other API of your choice.
 
 ### Task 4
 Add user types: child and adult. Add a flag to the books indicating if they are designed for children or not. Listing and borrowing adult books by children should not be allowed.

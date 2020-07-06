@@ -70,7 +70,7 @@ Dodaj możliwość importowania książek z pliku CSV przez administratorów.
 Dodaj listę prezentującą książki wypożyczone dłużej niż X dni. Lista ma być dostępna tylko dla administratorów.
 
 ### Zadanie 3
-Dodaj do formularza dodawania książki przycisk dostępny po wpisaniu numeru ISBN. Kliknięcie w przycisk ma powodować import danych o książce z API [ISBNDB](https://isbndb.com/api/docs/v2).
+Dodaj do formularza dodawania książki przycisk dostępny po wpisaniu numeru ISBN. Kliknięcie w przycisk ma powodować import danych o książce z [ISBNDB API](https://isbndb.com/api/docs/v2), [Open Library Books API](https://openlibrary.org/dev/docs/api/books) lub innego dowolnego API.
 
 ### Zadanie 4
 Dodaj typy użytkowników: dziecko i dorosły. Dodaj do książek znacznik informujący, czy są przeznaczone dla dzieci czy nie. Uniemożliwij przeglądanie i wypożyczanie książek przeznaczonych dla dorosłych przez dzieci.
