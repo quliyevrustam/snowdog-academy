@@ -13,27 +13,29 @@ class BookManager
         $this->database = $database;
     }
 
-    public function create(string $title, string $author, string $isbn): int
+    public function create(string $title, string $author, string $isbn, int $userType): int
     {
-        $statement = $this->database->prepare('INSERT INTO books (title, author, isbn) VALUES (:title, :author, :isbn)');
+        $statement = $this->database->prepare('INSERT INTO books (title, author, isbn, user_type) VALUES (:title, :author, :isbn, :user_type)');
         $binds = [
             ':title' => $title,
             ':author' => $author,
-            ':isbn' => $isbn
+            ':isbn' => $isbn,
+            ':user_type' => $userType
         ];
         $statement->execute($binds);
 
         return (int) $this->database->lastInsertId();
     }
 
-    public function update(int $id, string $title, string $author, string $isbn): void
+    public function update(int $id, string $title, string $author, string $isbn, int $userType): void
     {
-        $statement = $this->database->prepare('UPDATE books SET title = :title, author = :author, isbn = :isbn WHERE id = :id');
+        $statement = $this->database->prepare('UPDATE books SET title = :title, author = :author, isbn = :isbn, user_type = :user_type WHERE id = :id');
         $binds = [
             ':id' => $id,
             ':title' => $title,
             ':author' => $author,
-            ':isbn' => $isbn
+            ':isbn' => $isbn,
+            ':user_type' => $userType
         ];
 
         $statement->execute($binds);
@@ -50,14 +52,30 @@ class BookManager
 
     public function getAllBooks(): array
     {
-        $query = $this->database->query('SELECT * FROM books');
+        $query = $this->database->query('
+        SELECT 
+            b.*, 
+            ut.`name` AS user_type_name 
+        FROM 
+            books b LEFT JOIN `user_type` ut ON b.`user_type` = ut.`id`
+        ORDER BY b.id ASC;
+        ');
 
         return $query->fetchAll(Database::FETCH_CLASS, Book::class);
     }
 
-    public function getAvailableBooks(): array
+    public function getAvailableBooks(bool $isChild = false): array
     {
-        $query = $this->database->query('SELECT * FROM books WHERE borrowed = 0');
+        $sqlPart = '';
+        if($isChild) $sqlPart = ' AND b.user_type = '.UserType::CHILD;
+
+        $query = $this->database->query('
+        SELECT 
+            b.*, 
+            ut.`name` AS user_type_name 
+        FROM 
+            books b LEFT JOIN `user_type` ut ON b.`user_type` = ut.`id`
+        WHERE b.borrowed = 0'.$sqlPart);
 
         return $query->fetchAll(Database::FETCH_CLASS, Book::class);
     }

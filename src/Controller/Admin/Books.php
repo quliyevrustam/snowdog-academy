@@ -5,6 +5,7 @@ namespace Snowdog\Academy\Controller\Admin;
 use Snowdog\Academy\Component\Helper;
 use Snowdog\Academy\Model\Book;
 use Snowdog\Academy\Model\BookManager;
+use Snowdog\Academy\Model\UserType;
 
 class Books extends AdminAbstract
 {
@@ -35,14 +36,15 @@ class Books extends AdminAbstract
         $title = $_POST['title'];
         $author = $_POST['author'];
         $isbn = $_POST['isbn'];
+        $userType = $_POST['user_type'];
 
-        if (empty($title) || empty($author) || empty($isbn)) {
+        if (empty($title) || empty($author) || empty($isbn) || empty($userType)) {
             $_SESSION['flash'] = 'Missing data';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             return;
         }
 
-        $this->bookManager->create($title, $author, $isbn);
+        $this->bookManager->create($title, $author, $isbn, $userType);
 
         $_SESSION['flash'] = "Book $title by $author saved!";
         header('Location: /admin');
@@ -65,14 +67,15 @@ class Books extends AdminAbstract
         $title = $_POST['title'];
         $author = $_POST['author'];
         $isbn = $_POST['isbn'];
+        $userType = $_POST['user_type'];
 
-        if (empty($title) || empty($author) || empty($isbn)) {
+        if (empty($title) || empty($author) || empty($isbn) || empty($userType)) {
             $_SESSION['flash'] = 'Missing data';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             return;
         }
 
-        $this->bookManager->update($id, $title, $author, $isbn);
+        $this->bookManager->update($id, $title, $author, $isbn, $userType);
 
         $_SESSION['flash'] = "Book $title by $author saved!";
         header('Location: /admin');
@@ -112,9 +115,9 @@ class Books extends AdminAbstract
                 return;
             }
 
-            if($this->bookManager->create($book["title"], $book["author"], $book["isbn"]))
+            if($this->bookManager->create($book["title"], $book["author"], $book["isbn"], UserType::ADULT))
             {
-                $_SESSION['flash'] .= "Book ".$book["title"]." by ".$book["author"]."  saved!".'<br/>';
+                $_SESSION['flash'] .= "Book ".$book["title"]." by ".$book["author"]."  imported from CSV!".'<br/>';
             }
         }
 
@@ -195,7 +198,7 @@ class Books extends AdminAbstract
             return;
         }
 
-        $this->bookManager->update($id, $bookDetail['title'], $bookDetail['author'], $book->getIsbn());
+        $this->bookManager->update($id, $bookDetail['title'], $bookDetail['author'], $book->getIsbn(), $book->getUserType());
 
         $_SESSION['flash'] = "Book ".$bookDetail['title']." by ".$bookDetail['author']." updated by Open Library Books Database!";
         header('Location: /admin/edit_book/'.$id);

@@ -17,6 +17,7 @@ require_once(__DIR__ . '/../../common/header.phtml'); ?>
                 <th>Title</th>
                 <th>Author</th>
                 <th>ISBN</th>
+                <th>User Type</th>
                 <th>Borrowed</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@ require_once(__DIR__ . '/../../common/header.phtml'); ?>
                 <td><?= $book->getTitle()?></td>
                 <td><?= $book->getAuthor()?></td>
                 <td><?= $book->getIsbn()?></td>
+                <td><?= $book->getUserTypeName()?></td>
                 <td><?= $book->isBorrowed() ? 'Yes' : 'No' ?></td>
                 <td><a href="/admin/edit_book/<?=$book->getId()?>">Edit</a></td>
             </tr>
@@ -36,4 +38,3 @@ require_once(__DIR__ . '/../../common/header.phtml'); ?>
 </section>
 
 <?php require_once(__DIR__ . '/../../common/footer.phtml'); ?>
-

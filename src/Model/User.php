@@ -34,4 +34,24 @@ class User
     {
         return (bool) $this->is_active;
     }
+
+    public function getUserType(): int
+    {
+        return $this->user_type;
+    }
+
+    public function getUserTypeName(): string
+    {
+        return $this->user_type_name;
+    }
+
+    public function isChild(): bool
+    {
+        return $this->user_type == UserType::CHILD;
+    }
+
+    public function isAdult(): bool
+    {
+        return $this->user_type == UserType::ADULT;
+    }
 }

@@ -3,47 +3,40 @@
 namespace Snowdog\Academy\Migration;
 
 use Snowdog\Academy\Core\Database;
-use Snowdog\Academy\Model\UserManager;
+use Snowdog\Academy\Model\UserTypeManager;
 
 class Version1
 {
     private Database $database;
-    private UserManager $userManager;
+    private UserTypeManager $userTypeManager;
 
-    public function __construct(Database $database, UserManager $userManager)
+    public function __construct(Database $database, UserTypeManager $userTypeManager)
     {
         $this->database = $database;
-        $this->userManager = $userManager;
+        $this->userTypeManager = $userTypeManager;
     }
 
     public function __invoke()
     {
-        $this->createUsersTable();
-        $this->addUsers();
+        $this->createUserTypeTable();
+        $this->addUserTypes();
     }
 
-    private function createUsersTable(): void
+    private function createUserTypeTable(): void
     {
         $createQuery = <<<SQL
-CREATE TABLE `users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `login` varchar(255) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `is_admin` boolean NOT NULL default 0,
-  `is_active` boolean NOT NULL default 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
+CREATE TABLE `user_type` (
+  `id` tinyint(2) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SQL;
         $this->database->exec($createQuery);
     }
 
-    private function addUsers(): void
+    private function addUserTypes(): void
     {
-        $this->userManager->create('admin', 'admin', true, true);
-
-        $this->userManager->create('baca', 'zaq12wsx', false, true);
-        $this->userManager->create('maca', 'xsw23edc', false, true);
-        $this->userManager->create('onuca', 'cde34rfv');
+        $this->userTypeManager->create(1, 'Child');
+        $this->userTypeManager->create(2, 'Adult');
     }
 }

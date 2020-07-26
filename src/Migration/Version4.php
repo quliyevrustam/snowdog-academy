@@ -2,35 +2,38 @@
 
 namespace Snowdog\Academy\Migration;
 
-use Snowdog\Academy\Model\BookManager;
-use Snowdog\Academy\Model\BorrowManager;
-use Snowdog\Academy\Model\UserManager;
+use Snowdog\Academy\Core\Database;
 
 class Version4
 {
-    private UserManager $userManager;
-    private BorrowManager $borrowManager;
-    private BookManager $bookManager;
+    private Database $database;
 
-    public function __construct(UserManager $userManager, BorrowManager $borrowManager, BookManager $bookManager)
+    public function __construct(Database $database)
     {
-        $this->userManager = $userManager;
-        $this->borrowManager = $borrowManager;
-        $this->bookManager = $bookManager;
+        $this->database = $database;
     }
 
     public function __invoke()
     {
-        $this->addBorrows();
+        $this->createBorrowsTable();
     }
 
-    private function addBorrows(): void
+    private function createBorrowsTable(): void
     {
-        $users = $this->userManager->getAllByIsActive(true);
-        $books = $this->bookManager->getAllBooks();
-
-        foreach ($users as $key => $user) {
-            $this->borrowManager->create($user->getId(), $books[$key]->getId());
-        }
+        $createQuery = <<<SQL
+create table borrows (
+	user_id int(11) unsigned not null,
+	book_id int(11) unsigned not null,
+	borrowed_at datetime null,
+	primary key (user_id, book_id),
+	constraint borrows_book_id_uindex
+		unique (book_id),
+	constraint borrows_books_id_fk
+		foreign key (book_id) references books (id),
+	constraint borrows_users_id_fk
+		foreign key (user_id) references users (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SQL;
+        $this->database->exec($createQuery);
     }
 }

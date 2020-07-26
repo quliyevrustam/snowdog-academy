@@ -56,7 +56,13 @@ class UserManager
 
     public function getAllByIsActive(bool $isActive = true): array
     {
-        $query = $this->database->prepare('SELECT * FROM users WHERE is_admin = 0 AND is_active = :is_active');
+        $query = $this->database->prepare('
+            SELECT 
+                u.*, 
+                ut.`name` AS user_type_name  
+            FROM users u LEFT JOIN `user_type` ut ON u.`user_type` = ut.`id`
+            WHERE u.is_admin = 0 AND u.is_active = :is_active
+            ORDER BY u.id ASC;');
         $query->bindParam(':is_active', $isActive, Database::PARAM_BOOL);
         $query->execute();
 
@@ -71,5 +77,15 @@ class UserManager
     private function hashPassword(string $password): string
     {
         return hash('sha512', $password);
+    }
+
+    /* Change User "User Type" */
+    public function editUserType(int $id, int $type): bool
+    {
+        $statement = $this->database->prepare('UPDATE users SET user_type = :user_type WHERE id = :id');
+        $statement->bindParam(':id', $id, Database::PARAM_INT);
+        $statement->bindParam(':user_type', $type, Database::PARAM_INT);
+
+        return $statement->execute();
     }
 }

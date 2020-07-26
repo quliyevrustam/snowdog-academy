@@ -37,9 +37,24 @@ class Book
         return $this->isbn;
     }
 
+    public function getUserType(): string
+    {
+        return $this->user_type;
+    }
+
+    public function getUserTypeName(): string
+    {
+        return $this->user_type_name;
+    }
+
     public function isBorrowed(): bool
     {
         return $this->borrowed;
+    }
+
+    public function getBorrowedTime(): string
+    {
+        return $this->borrowed_at;
     }
 
     public function getReturnTime(): string
@@ -48,11 +63,6 @@ class Book
         $dateTime->add(new DateInterval('P14D'));
 
         return $dateTime->format(self::DATETIME_FORMAT);
-    }
-
-    public function getBorrowedTime(): string
-    {
-        return $this->borrowed_at;
     }
 
     // Get Book Details by ISBN

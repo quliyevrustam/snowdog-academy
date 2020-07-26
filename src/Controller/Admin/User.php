@@ -43,4 +43,22 @@ class User extends AdminAbstract
     {
         return $this->userManager->getAllByIsActive($isActive);
     }
+
+    /* Change User "User Type" */
+    public function editUserType(int $id, int $type): void
+    {
+        // Get User
+        $user = $this->userManager->getById($id);
+
+        if ($user)
+        {
+            $this->userManager->editUserType($id, $type);
+            $_SESSION['flash'] = 'User <strong>' . $user->getLogin() . '</strong> User Type was changed';
+        }
+        else {
+            $_SESSION['flash'] = 'Incorrect user!';
+        }
+
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
 }

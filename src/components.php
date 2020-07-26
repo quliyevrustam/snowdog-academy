@@ -57,6 +57,9 @@ RouteRepository::registerRoute('POST', '/admin/borrowed_books', Admin\Books::cla
 /* Restore Book Details by ISBN */
 RouteRepository::registerRoute('POST', '/admin/restore_by_isbn/{id:\d+}', Admin\Books::class, 'restoreByIsbn');
 
+/* Change User "User Type" */
+RouteRepository::registerRoute('GET', '/admin/user/edit/{id:\d+}/user_type/{type:\d+}', Admin\User::class, 'editUserType');
+
 Menu::register(LoginMenu::class, 100);
 Menu::register(RegisterMenu::class, 200);
 Menu::register(ActiveUsersMenu::class, 300);
@@ -69,4 +72,4 @@ CommandRepository::registerCommand('test_db_connection', TestDbConnection::class
 CommandRepository::registerCommand('migrate_db', Migrate::class, 'Performs database migration');
 CommandRepository::registerCommand('create_admin', CreateAdmin::class, 'Create new admin user');
 
-Migrations::registerComponentMigration('Snowdog\\Academy', 4);
+Migrations::registerComponentMigration('Snowdog\\Academy', 5);

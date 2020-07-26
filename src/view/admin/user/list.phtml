@@ -15,17 +15,22 @@ use Snowdog\Academy\Model\User as UserModel; ?>
                 <tr>
                     <th>ID</th>
                     <th>Login</th>
-                    <?php if (!$this->isActive): ?>
+                    <th>User Type</th>
                         <th>Action</th>
-                    <?php endif; ?>
-
                 </tr>
                 <?php foreach ($this->getUsers($this->isActive) as $user): /** @var UserModel $user */ ?>
                     <tr>
                         <td><?= $user->getId() ?></td>
                         <td><?= $user->getLogin() ?></td>
+                        <td><?= $user->getUserTypeName() ?></td>
                         <?php if (!$this->isActive): ?>
                             <th><a href="/admin/user/activate/<?= $user->getId() ?>">Activate</a></th>
+                        <?php else: ?>
+                            <?php if ($user->getUserType() == \Snowdog\Academy\Model\UserType::CHILD): ?>
+                                <th><a href="/admin/user/edit/<?= $user->getId() ?>/user_type/<?= \Snowdog\Academy\Model\UserType::ADULT ?>">Make Adult</a></th>
+                            <?php else: ?>
+                                <th><a href="/admin/user/edit/<?= $user->getId() ?>/user_type/<?= \Snowdog\Academy\Model\UserType::CHILD ?>">Make Child</a></th>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach ?>
