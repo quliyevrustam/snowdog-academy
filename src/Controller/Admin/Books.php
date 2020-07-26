@@ -11,6 +11,8 @@ class Books extends AdminAbstract
     private BookManager $bookManager;
     private ?Book $book;
 
+    private ?int $borrowedDays = null;
+
     public function __construct(BookManager $bookManager)
     {
         parent::__construct();
@@ -117,5 +119,45 @@ class Books extends AdminAbstract
         }
 
         header('Location: /admin');
+    }
+
+    /* View "Borrowed Book List" Page */
+    public function borrowedBooks(): void
+    {
+        require __DIR__ . '/../../view/admin/books/borrowed.phtml';
+    }
+
+    /*
+        List of Borrowed Books.
+        Property borrowedDays used for filter. By default borrowedDays is null.
+        When $borrowedDays is null - will be shown all borrowed books
+        When $borrowedDays is not null - table will be filtered by $borrowedDays
+    */
+    private function getBorrowedBooks(): array
+    {
+        return $this->bookManager->getBorrowedBooks($this->borrowedDays);
+    }
+
+    // Filter Borrowed Books and Reset Filter
+    public function borrowedBooksPost(): void
+    {
+        // Reset Filter
+        if(isset($_POST['reset_form']))
+        {
+            $_SESSION['flash'] = "Filter reset!";
+            header('Location: /admin/borrowed_books');
+        }
+
+        // Validate Filter
+        if(isset($_POST['days']) && !is_numeric($_POST['days']))
+        {
+            $_SESSION['flash'] = "Wrong filter data!";
+            header('Location: /admin/borrowed_books');
+        }
+
+        // Updating property $borrowedDays will be used for filter table "Borrowed Books List"
+        $this->borrowedDays = $_POST['days'];
+
+        require __DIR__ . '/../../view/admin/books/borrowed.phtml';
     }
 }

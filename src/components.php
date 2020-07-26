@@ -14,6 +14,7 @@ use Snowdog\Academy\Controller\MyBooksList;
 use Snowdog\Academy\Controller\Register;
 use Snowdog\Academy\Menu\ActiveUsersMenu;
 use Snowdog\Academy\Menu\InactiveUsersMenu;
+use Snowdog\Academy\Menu\BorrowedBooksMenu;
 use Snowdog\Academy\Menu\LoginMenu;
 use Snowdog\Academy\Menu\LogoutMenu;
 use Snowdog\Academy\Menu\MyBooksMenu;
@@ -46,11 +47,19 @@ RouteRepository::registerRoute('GET', '/admin/import_from_csv', Admin\Books::cla
 // Import Books From CSV
 RouteRepository::registerRoute('POST', '/admin/import_from_csv', Admin\Books::class, 'importFromCsvPost');
 
+/* Import Books From CSV File */
+// View "Borrowed Book List" Page
+RouteRepository::registerRoute('GET', '/admin/borrowed_books', Admin\Books::class, 'borrowedBooks');
+
+// Filtered Borrowed Books
+RouteRepository::registerRoute('POST', '/admin/borrowed_books', Admin\Books::class, 'borrowedBooksPost');
+
 Menu::register(LoginMenu::class, 100);
 Menu::register(RegisterMenu::class, 200);
 Menu::register(ActiveUsersMenu::class, 300);
 Menu::register(InactiveUsersMenu::class, 400);
 Menu::register(MyBooksMenu::class, 500);
+Menu::register(BorrowedBooksMenu::class, 600);
 Menu::register(LogoutMenu::class, 900);
 
 CommandRepository::registerCommand('test_db_connection', TestDbConnection::class, 'Tests database connection');

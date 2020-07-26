@@ -61,4 +61,21 @@ class BookManager
 
         return $query->fetchAll(Database::FETCH_CLASS, Book::class);
     }
+
+    public function getBorrowedBooks(?int $days): array
+    {
+        $sqlPart = '';
+        if(!empty($days)) $sqlPart = " AND br.`borrowed_at` < DATE_SUB(NOW(), INTERVAL ".$days." DAY)";
+
+        $query = $this->database->query("
+            SELECT 
+                b.`id`, b.`title`, b.`author`, b.`isbn`, br.`borrowed_at`
+            FROM 
+                books b LEFT JOIN `borrows` br ON b.`id` = br.`book_id` 
+            WHERE 
+                borrowed = 1 $sqlPart
+	    ");
+
+        return $query->fetchAll(Database::FETCH_CLASS, Book::class);
+    }
 }

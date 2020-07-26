@@ -48,4 +48,9 @@ class Book
 
         return $dateTime->format(self::DATETIME_FORMAT);
     }
+
+    public function getBorrowedTime(): string
+    {
+        return $this->borrowed_at;
+    }
 }

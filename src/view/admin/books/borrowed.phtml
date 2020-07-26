@@ -1,0 +1,50 @@
+<?php use Snowdog\Academy\Model\Book;
+
+require_once(__DIR__ . '/../../common/header.phtml'); ?>
+
+    <section id="book-list" class="padded">
+        <h3>Borrowed Book List</h3>
+
+        <form class="form-horizontal" method="POST" action="/admin/borrowed_books">
+            <div class="form-group">
+                <label for="book-title" class="col-sm-1 control-label">Borrowed Days:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="book-title" name="days" class="form-control" value="<?= $this->borrowedDays?>" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-2">
+                    <button type="submit" class="btn btn-primary" name="submit_form">Filter</button>
+                    <?php if (!empty($this->borrowedDays)): ?>
+                        <button type="submit" class="btn btn-primary" name="reset_form">Reset</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </form>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Borrowed time</th>
+                <th>Return time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->getBorrowedBooks() as $book): /** @var Book $book */?>
+                <tr>
+                    <td><?= $book->getId()?></td>
+                    <td><?= $book->getTitle()?></td>
+                    <td><?= $book->getAuthor()?></td>
+                    <td><?= $book->getIsbn()?></td>
+                    <td><?= $book->getBorrowedTime()?></td>
+                    <td><?= $book->getReturnTime()?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+<?php require_once(__DIR__ . '/../../common/footer.phtml'); ?>
