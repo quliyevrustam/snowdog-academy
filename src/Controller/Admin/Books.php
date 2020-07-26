@@ -105,14 +105,14 @@ class Books extends AdminAbstract
         foreach ($books as $book)
         {
             // Validate parsed book
-            if (empty($book["title"]) || empty($book["﻿author"]) || empty($book["isbn"]))
+            if (empty($book["title"]) || empty($book["author"]) || empty($book["isbn"]))
             {
                 $_SESSION['flash'] = 'Missing data';
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
                 return;
             }
 
-            if($this->bookManager->create($book["title"], $book["﻿author"], $book["isbn"]))
+            if($this->bookManager->create($book["title"], $book["author"], $book["isbn"]))
             {
                 $_SESSION['flash'] .= "Book ".$book["title"]." by ".$book["author"]."  saved!".'<br/>';
             }

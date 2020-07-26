@@ -15,7 +15,14 @@ class Helper
             while(($row = fgetcsv($handle, 1000, $delimiter)) !== false)
             {
                 if(!$header)
+                {
+                    // Delete BOM symbol
+                    foreach ($row as $key => &$value)
+                    {
+                        $value = str_replace('﻿', '', $value);
+                    }
                     $header = $row;
+                }
                 else
                 {
                     $return[] = array_combine($header, $row);
