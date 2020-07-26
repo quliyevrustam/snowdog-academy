@@ -39,6 +39,13 @@ RouteRepository::registerRoute('POST', '/admin/edit_book/{id:\d+}', Admin\Books:
 RouteRepository::registerRoute('GET', '/admin/user/list/{isActive:\d+}', Admin\User::class, 'list');
 RouteRepository::registerRoute('GET', '/admin/user/activate/{id:\d+}', Admin\User::class, 'activate');
 
+/* Import Books From CSV File */
+// View "Import Books From CSV" Page
+RouteRepository::registerRoute('GET', '/admin/import_from_csv', Admin\Books::class, 'importFromCsv');
+
+// Import Books From CSV
+RouteRepository::registerRoute('POST', '/admin/import_from_csv', Admin\Books::class, 'importFromCsvPost');
+
 Menu::register(LoginMenu::class, 100);
 Menu::register(RegisterMenu::class, 200);
 Menu::register(ActiveUsersMenu::class, 300);
