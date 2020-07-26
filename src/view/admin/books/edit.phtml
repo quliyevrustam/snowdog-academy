@@ -12,6 +12,7 @@ if ($this->book instanceof Book) {
 ?>
 
 <section id="new-book-form" class="padded">
+    <h3>Book Details Edit</h3>
     <form class="form-horizontal" method="POST" action="<?= $action ?>">
         <div class="form-group">
             <label for="book-title" class="col-sm-1 control-label">Title:</label>
@@ -37,6 +38,15 @@ if ($this->book instanceof Book) {
             </div>
         </div>
     </form>
+    <?php if ($isbn): ?>
+        <form class="form-horizontal" method="POST" action="/admin/restore_by_isbn/<?= $this->book->getId() ?? ''?>">
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-2">
+                    <button type="submit" class="btn btn-primary">Restore by ISBN</button>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
 </section>
 
 <?php require_once(__DIR__ . '/../../common/footer.phtml'); ?>

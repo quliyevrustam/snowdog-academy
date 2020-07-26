@@ -54,6 +54,9 @@ RouteRepository::registerRoute('GET', '/admin/borrowed_books', Admin\Books::clas
 // Filtered Borrowed Books
 RouteRepository::registerRoute('POST', '/admin/borrowed_books', Admin\Books::class, 'borrowedBooksPost');
 
+/* Restore Book Details by ISBN */
+RouteRepository::registerRoute('POST', '/admin/restore_by_isbn/{id:\d+}', Admin\Books::class, 'restoreByIsbn');
+
 Menu::register(LoginMenu::class, 100);
 Menu::register(RegisterMenu::class, 200);
 Menu::register(ActiveUsersMenu::class, 300);

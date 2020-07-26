@@ -160,4 +160,44 @@ class Books extends AdminAbstract
 
         require __DIR__ . '/../../view/admin/books/borrowed.phtml';
     }
+
+    /* Restore Book Details by ISBN */
+    public function restoreByIsbn(int $id): void
+    {
+        // Get Book by Id
+        $book = $this->bookManager->getBookById($id);
+        if (!($book instanceof Book))
+        {
+            header('HTTP/1.0 404 Not Found');
+            require __DIR__ . '/../../view/errors/404.phtml';
+        }
+
+        // Validate ISBN isset
+        if (empty($book->getIsbn())) {
+            $_SESSION['flash'] = 'Missing data ISBN';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            return;
+        }
+
+        // Get Book Details by ISBN
+        $bookDetail = $book->getBookDetailByIsbn();
+
+        if(isset($bookDetail['error']))
+        {
+            $_SESSION['flash'] = "Error: ".$bookDetail['error'];
+            header('Location: /admin/edit_book/'.$id);
+        }
+
+        // Validate Book Detail
+        if (empty($bookDetail['title']) || empty($bookDetail['author'])) {
+            $_SESSION['flash'] = 'Missing data';
+            header('Location: /admin/edit_book/'.$id);
+            return;
+        }
+
+        $this->bookManager->update($id, $bookDetail['title'], $bookDetail['author'], $book->getIsbn());
+
+        $_SESSION['flash'] = "Book ".$bookDetail['title']." by ".$bookDetail['author']." updated by Open Library Books Database!";
+        header('Location: /admin/edit_book/'.$id);
+    }
 }
